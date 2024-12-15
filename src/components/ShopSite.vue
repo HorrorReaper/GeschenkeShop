@@ -29,7 +29,6 @@ function getCookie(cname) {
 function IsLoggedIn(){
   let email = getCookie("email");
   if(email != ""){
-    alert("Welcome user with the email: " + email);
   }else{
     alert("Sorry, but you are not logged in, please login first");
     document.location.href="/";

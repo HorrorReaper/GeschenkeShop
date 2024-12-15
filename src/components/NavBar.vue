@@ -24,7 +24,7 @@
           <button type="button" class="btn btn-outline-light me-2" onclick="window.location.href='/login'">Login</button>
           <button type="button" class="btn btn-warning" onclick="window.location.href='/signup'">Sign-up</button>
         </div>
-        <img src="/shopping-cart.svg" alt=""  class="warenkorb">
+        <img src="/shopping-cart.svg" alt="" onclick="document.location.href='/basket'" class="warenkorb">
       </div>
     </div>
   </header>

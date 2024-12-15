@@ -4,6 +4,7 @@ import LoginView from '@/views/LoginView.vue'
 import SignupView from '@/views/SignupView.vue'
 import ShopView from '@/views/ShopView.vue'
 import BookDetailView from '@/views/BookDetailView.vue'
+import ShoppingBasket from '@/components/ShoppingBasket.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +41,12 @@ const router = createRouter({
       path:'/books/:bookId',
       name:'bookDetails',
       component: BookDetailView,
-    }
+    },
+    {
+      path:'/basket',
+      name:'basket',
+      component: ShoppingBasket,
+    },
   ],
 })
 

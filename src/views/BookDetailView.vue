@@ -1,49 +1,4 @@
-<!--<script setup>
-</script>
 
-<template>
-    <div>
-      <h1>Book Details</h1>
-      <p>Book ID: {{ bookId }}</p>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'BookDetailView',
-    data() {
-      return {
-        bookId: null,
-      };
-    },
-    created() {
-      // Access bookId from route params
-      this.bookId = this.$route.params.bookId;
-  
-      // Optionally, fetch book details using the bookId
-      this.fetchBookDetails();
-    },
-    methods: {
-      async fetchBookDetails() {
-        // Example of fetching book details based on bookId
-        console.log(`Fetching details for book ID: ${this.bookId}`);
-        try{
-            const response = await fetch(`http://localhost:3000/books/${this.bookId}`);
-            if (!response.ok) {
-                throw new Error('Book not found');
-            }
-            const book = await response.json();
-            this.book = book; // Save the book details
-            console.log("Das war erfolgreich");
-        }catch (error) {
-            console.error('Error fetching book details:', error);
-            this.error = error.message; // Display an error message
-            }
-        
-      },
-    },
-  };
-  </script>-->
   <script setup>
 import { ref, onMounted } from 'vue'; // Use Composition API
 import { useRoute } from 'vue-router'; // To access route parameters
@@ -70,6 +25,22 @@ const fetchBookDetails = async () => {
 
 // Fetch details when the component is mounted
 onMounted(fetchBookDetails);
+
+import { inject } from 'vue';
+
+const shoppingBasket = inject('shoppingBasket'); // Access shared basket
+const addToBasket = (book) => {
+  alert("Du hast gerade gedrückt, herzlichen Glückwunsch");
+  const existingBook = shoppingBasket.find((item) => item.ProduktID === book.ProduktID);
+  if (existingBook) {
+    alert("Buch bereits im Warenkorb, füge eins hinzu");
+    existingBook.quantity += 1; // Increment quantity if the book is already in the basket
+  } else {
+    alert("Buch neu hinzugefügt: " + book);
+    shoppingBasket.push({ ...book, quantity: 1 }); // Add new book with quantity 1
+  }
+  alert(shoppingBasket);
+};
 </script>
 
 <template>
@@ -115,13 +86,14 @@ onMounted(fetchBookDetails);
       <hr>
       
       <p><strong>Kaufpreis:</strong><br> {{ parseFloat(book.PreisBrutto).toFixed(2) }}€ inkl. 7% MwSt</p>
-      <p v-if="book.Lagerbestand > 0"><strong style="color: chartreuse;">Produkt ist verfügbar</strong></p>
+      <p v-if="book.Lagerbestand >= 10"><strong style="color: chartreuse;">Produkt ist verfügbar</strong></p>
+      <p v-else-if="book.Lagerbestand < 10" style="color: red;"><strong>Beeil dich, nur noch {{ book.Lagerbestand }} verfügbar!</strong></p>
       <p v-else-if="book.Lagerbestand == 0" style="color: red; font-weight: bold;">Produkt ist ausverkauft!</p>
       
       
 
       
-      <button class="btn btn-success btn-kaufen flex"> <img src="/shopping-cart.svg" alt="">   In den Warenkorb</button>
+      <button class="btn btn-success btn-kaufen flex" @click="addToBasket(book)"> <img src="/shopping-cart.svg" alt="">   In den Warenkorb</button>
     </div>
 
     <!-- Loading indicator -->
