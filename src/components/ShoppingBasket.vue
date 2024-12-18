@@ -43,7 +43,7 @@ const calculateTotal = () => {
       <hr>
       <div class="flex">
         <p><strong>Total:</strong> {{ calculateTotal() }}€</p>
-      <button class="btn btn-success">Checkout</button>
+      <button class="btn btn-success" @click="checkout">Checkout</button>
       </div>
       
     </div>
@@ -52,6 +52,45 @@ const calculateTotal = () => {
     </div>
   </div>
 </template>
+<script>
+import { loadStripe } from '@stripe/stripe-js';
+
+export default {
+  data() {
+    return {
+      basket: [], // Warenkorb-Items
+    };
+  },
+  async created() {
+    // Warenkorb aus LocalStorage laden
+    this.basket = JSON.parse(localStorage.getItem('shoppingBasket') || '[]');
+  },
+  methods: {
+    async checkout() {
+      try {
+        const stripe = await loadStripe('pk_test_51OrGepF0DjJyfXppEbByuJp2utauNprM12oQoptWD7zhv5IxBfcIOtgI1iDXhEp7NFbHaORfqotMeZRXox5UZeid008RFjBZZH'); // Ersetze mit deinem Public Key
+
+        // Sende den Warenkorb an das Backend
+        const response = await fetch('http://localhost:3000/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ items: this.basket }),
+        });
+
+        const { id } = await response.json();
+
+        // Stripe Checkout starten
+        await stripe.redirectToCheckout({ sessionId: id });
+      } catch (error) {
+        console.error('Error during checkout:', error);
+        alert('Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
+      }
+    },
+  },
+};
+</script>
 <style>
 .basket-container{
     width:30vw;

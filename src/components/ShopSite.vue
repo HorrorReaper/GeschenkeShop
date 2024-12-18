@@ -1,8 +1,10 @@
 <script setup>
 import Book from './Book.vue'
+import SearchForm from './SearchForm.vue';
 </script>
 
 <template>
+  <SearchForm/>
   <h1>Hallo {{ email }}</h1>
     <div class="books">
         <p v-if="loading == true">Lade Bücher...</p>
@@ -12,6 +14,7 @@ import Book from './Book.vue'
 </template>
 <script>
 import Book from './Book.vue'; // Import the Book component
+
 function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');

@@ -5,6 +5,7 @@ import SignupView from '@/views/SignupView.vue'
 import ShopView from '@/views/ShopView.vue'
 import BookDetailView from '@/views/BookDetailView.vue'
 import ShoppingBasket from '@/components/ShoppingBasket.vue'
+import SuccessView from '@/views/SuccessView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +48,11 @@ const router = createRouter({
       name:'basket',
       component: ShoppingBasket,
     },
+    {
+      path:'/success',
+      name:'success',
+      component: SuccessView,
+    }
   ],
 })
 
