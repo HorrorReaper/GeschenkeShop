@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
-const stripe = require('stripe')('sk_test_51OrGepF0DjJyfXppxn2r6PlzRB5xrHtL75nWIPsPf19uF3If8ZLDPXmMpBvYVtSO6ANIpVXw5ub7sIwVKPngrtM600G0S1gYur');
+const stripe = require('stripe')('KEY_INSERT_HERE');
 const app = express();
 const port = 3000;
 
