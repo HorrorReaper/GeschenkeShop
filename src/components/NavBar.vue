@@ -11,9 +11,7 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
           <li><a href="/shop" class="nav-link px-2 text-white">Shop</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+          <li><a href="/admin" class="nav-link px-2 text-white">AdminPanel</a></li>
         </ul>
 
         <form class="col-8 col-lg-auto mb-3 mb-lg-0 me-lg-3 p-0"  role="search" style="background-color: grey;">

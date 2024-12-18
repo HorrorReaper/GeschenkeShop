@@ -100,7 +100,7 @@ app.get('/books/:ProduktID', (req, res) => {
     }
   });
 })
-// Stripe Webhook
+// Stripe Webhook um Bestellungen zu erfassen
 app.post('/webhook', async (req, res) => {
   const endpointSecret = 'whsec_your_webhook_secret'; // Webhook Secret von Stripe Dashboard
 
@@ -139,6 +139,23 @@ app.post('/webhook', async (req, res) => {
   }
 
   res.json({ received: true });
+});
+//für das Admin-Panel die verfügbaren Bücher abrufen
+app.get('/available-books', (req, res) => {
+  fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading the JSON file:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    try {
+      const books = JSON.parse(data);
+      const availableBooks = books.filter(book => parseInt(book.Lagerbestand) > 0);
+      res.json(availableBooks);
+    } catch (parseErr) {
+      console.error('Error parsing JSON:', parseErr);
+      res.status(500).send('Invalid JSON format');
+    }
+  });
 });
 // Start the server
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

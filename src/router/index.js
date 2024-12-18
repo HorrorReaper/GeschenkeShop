@@ -6,6 +6,7 @@ import ShopView from '@/views/ShopView.vue'
 import BookDetailView from '@/views/BookDetailView.vue'
 import ShoppingBasket from '@/components/ShoppingBasket.vue'
 import SuccessView from '@/views/SuccessView.vue'
+import AdminView from '@/views/AdminView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,11 @@ const router = createRouter({
       path:'/success',
       name:'success',
       component: SuccessView,
+    },
+    {
+      path:'/admin',
+      name:'admin',
+      component: AdminView,
     }
   ],
 })
