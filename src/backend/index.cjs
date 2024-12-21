@@ -2,13 +2,14 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const mysql = require('mysql2');
 const stripe = require('stripe')('sk_test_51OrGepF0DjJyfXppxn2r6PlzRB5xrHtL75nWIPsPf19uF3If8ZLDPXmMpBvYVtSO6ANIpVXw5ub7sIwVKPngrtM600G0S1gYur');
 const app = express();
 const port = 3000;
 
 // Path to your JSON file
-const jsonFilePath = path.join(__dirname, 'books.json');
-const ordersFilePath = './orders.json';
+const booksJsonFilePath = path.join(__dirname, 'books.json');
+const ordersFilePath = './order.json';
 // Middleware
 app.use(cors());
 app.use(express.json()); // Middleware to parse JSON request bodies
@@ -18,7 +19,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 
 // Books route
 app.get('/books', (req, res) => {
-  fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+  fs.readFile(booksJsonFilePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading the JSON file:', err);
       return res.status(500).send('Internal Server Error');
@@ -48,6 +49,7 @@ app.post('/create-checkout-session', async (req, res) => {
       quantity: item.quantity,
     }));
 
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items,
@@ -76,7 +78,7 @@ app.post('/login', (req, res) => {
 app.get('/books/:ProduktID', (req, res) => {
   const bookIdd = parseInt(req.params.ProduktID, 10); // Convert the id from the route to an integer
   console.log(bookIdd);
-  fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+  fs.readFile(booksJsonFilePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading the JSON file:', err);
       return res.status(500).send('Internal Server Error');
@@ -142,7 +144,7 @@ app.post('/webhook', async (req, res) => {
 });
 //für das Admin-Panel die verfügbaren Bücher abrufen
 app.get('/available-books', (req, res) => {
-  fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+  fs.readFile(booksJsonFilePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading the JSON file:', err);
       return res.status(500).send('Internal Server Error');
@@ -156,6 +158,41 @@ app.get('/available-books', (req, res) => {
       res.status(500).send('Invalid JSON format');
     }
   });
+});
+app.get('/orders', (req, res) => {
+  try {
+    const orders = JSON.parse(fs.readFileSync(ordersFilePath, 'utf8'));
+    console.log('Orders:', orders);
+    res.json(orders);
+  } catch (error) {
+    console.error('Error reading orders:', error);
+    res.status(500).json({ error: 'An error occurred, please try again later.' });
+  }
+});
+const connection = mysql.createConnection({
+  host: '127.0.0.1', 
+  user: 'g25', 
+  password: 'hum57fix', 
+  database: 'g25'
+});
+
+
+app.get('/connect-to-database', (req, res) => {
+  connection.connect((err) => {
+    if (err) {
+      console.error('Fehler beim Verbinden mit der Datenbank:', err.message);
+      return;
+    }
+    console.log('Erfolgreich mit der Datenbank verbunden!');
+  });
+  
+  // Beispielabfrage
+  connection.query('SELECT * FROM users', (err, results) => {
+    if (err) throw err;
+    console.log('Ergebnisse:', results);
+  });
+  
+  connection.end();
 });
 // Start the server
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

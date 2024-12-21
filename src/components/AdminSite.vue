@@ -1,4 +1,5 @@
 <script setup>
+import Orders from './Orders.vue';
 import Stock from './Stock.vue';
 
 
@@ -10,6 +11,7 @@ import Stock from './Stock.vue';
     <h2>Lager</h2>
     <Stock/>
     <h2>Bestellungen</h2>
+    <Orders/>
     <h2>Benutzer</h2>
     
 </template>
