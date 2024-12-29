@@ -15,7 +15,7 @@ import SearchForm from './SearchForm.vue';
 <script>
 import Book from './Book.vue'; // Import the Book component
 
-function getCookie(cname) {
+export function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');
   for(let i = 0; i < ca.length; i++) {

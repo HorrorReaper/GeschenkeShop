@@ -24,7 +24,6 @@ onMounted(() => {
 
 <template>
     <div class="admin-panel">
-      <h1>Admin Panel: Verfügbare Bücher</h1>
       <div v-if="errorMessage" class="alert alert-danger">
         {{ errorMessage }}
       </div>
@@ -32,19 +31,27 @@ onMounted(() => {
         <thead>
           <tr>
             <th>BestellNr</th>
-            <th>ProduktID</th>
-            <th>UserID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Produktcode</th>
+            <th>Produkttitel</th>
+            <th>Preisbrutto</th>
             <th>Menge</th>
             <th>Status</th>
+            <th>Gesamtpreis </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="order in orders" :key="order.BestellNr">
             <td>{{ order.BestellNr }}</td>
-            <td>{{ order.ProduktID }}</td>
-            <td>{{ order.UserID }}</td>
+            <td>{{ order.Username }}</td>
+            <td>{{ order.Email }}</td>
+            <td>{{ order.Produktcode }}</td>
+            <td>{{ order.Produkttitel }}</td>
+            <td>{{ order.Preisbrutto }}</td>
             <td>{{ order.Menge }}</td>
             <td>{{ order.Status }}</td>
+            <td>{{ order.Gesamtpreis  }}</td>
           </tr>
         </tbody>
       </table>

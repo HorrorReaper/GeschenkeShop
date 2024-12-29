@@ -1,4 +1,5 @@
 <script setup>
+import Book from './Book.vue'
 </script>
 <template>
     <h1>Hallo {{ email }}</h1>

@@ -51,7 +51,7 @@ const addToBasket = (book) => {
     <!-- Display book details -->
     <div v-else-if="book" class=" card-book">
         <div class="flex book-header-section" style="display: flex;">
-            <img :src="book.LinkGrafikdatei" alt="Book Image" />
+            <img :src="book?.LinkGrafikDatei" alt="Book Image" />
             <div class="details">
                 <h1>{{ book.Produkttitel }}</h1>
                 <h3>{{ book.Kurzinhalt }}</h3>
@@ -76,7 +76,7 @@ const addToBasket = (book) => {
             <div class="author-section" style="display: flex;">
                 <img src="/weight.svg" alt="">
                 <div class="details">
-                    <p><strong>Weight:</strong><br> {{ book.Gewicht }} kg</p>
+                    <p><strong>Weight:</strong><br> {{ book.Gewicht }} g</p>
                 </div>
             </div>
             

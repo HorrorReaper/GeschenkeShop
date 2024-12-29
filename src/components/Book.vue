@@ -22,7 +22,7 @@ const addToBasket = (book) => {
 
 <template>
   <div class="card">
-    <img :src="book.LinkGrafikdatei" alt="Book Image" />
+    <img :src="book.LinkGrafikDatei" alt="Book Image" />
     <div class="card-body">
         <h4 class="card-title">{{ book.Produkttitel }}</h4>
         <p class="card-text">

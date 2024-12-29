@@ -21,16 +21,23 @@ const calculateTotal = () => {
     return total + item.PreisBrutto * item.quantity;
   }, 0).toFixed(2); // Format to 2 decimal places
 };
+const calculateTotalMwSt = () => {
+  return shoppingBasket.reduce((total, item) => {
+    return total + (item.PreisBrutto/100 * item.Mehrwertsteuersatz) * item.quantity;
+  }, 0).toFixed(2); // Format to 2 decimal places
+};
 </script>
 
 <template>
   <div style="display: flex; align-content: center; justify-content: center; background-color: gray; height: 80vh;">
     <div v-if="shoppingBasket.length" class="basket-container">
       <div v-for="item in shoppingBasket" :key="item.ProduktID"  class="basketItem">
-        <img :src="item.LinkGrafikdatei" alt="">
+        <img :src="item.LinkGrafikDatei" alt="">
         <div class="details">
             <p><strong>{{ item.Produkttitel }}</strong></p>
         <p>Price: {{ parseFloat(item.PreisBrutto).toFixed(2) }}€</p>
+        <p>Inkl. {{ item.Mehrwertsteuersatz }}%
+        MwSt: {{ (parseFloat(item.PreisBrutto)/100 * item.Mehrwertsteuersatz).toFixed(2) }}€</p>
         <p>Quantity: 
           <input type="number" v-model.number="item.quantity" @input="updateQuantity(item.ProduktID, item.quantity)" />
         </p>
@@ -41,8 +48,10 @@ const calculateTotal = () => {
         <hr />
       </div>
       <hr>
-      <div class="flex">
+      <div >
+      
         <p><strong>Total:</strong> {{ calculateTotal() }}€</p>
+        <p><strong> davon MwSt:</strong> {{ calculateTotalMwSt() }}€</p>
       <button class="btn btn-success" @click="checkout">Checkout</button>
       </div>
       
@@ -53,7 +62,9 @@ const calculateTotal = () => {
   </div>
 </template>
 <script>
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js'; // Import Stripe SDK
+import { getCookie } from './ShopSite.vue';
+
 
 export default {
   data() {
@@ -64,19 +75,21 @@ export default {
   async created() {
     // Warenkorb aus LocalStorage laden
     this.basket = JSON.parse(localStorage.getItem('shoppingBasket') || '[]');
+    this.email = getCookie("email");
+    console.log(this.email);
   },
   methods: {
     async checkout() {
       try {
         const stripe = await loadStripe('pk_test_51OrGepF0DjJyfXppEbByuJp2utauNprM12oQoptWD7zhv5IxBfcIOtgI1iDXhEp7NFbHaORfqotMeZRXox5UZeid008RFjBZZH'); // Ersetze mit deinem Public Key
-
+        
         // Sende den Warenkorb an das Backend
         const response = await fetch('http://localhost:3000/create-checkout-session', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ items: this.basket }),
+          body: JSON.stringify({ items: this.basket, email: this.email}),
         });
 
         const { id } = await response.json();
