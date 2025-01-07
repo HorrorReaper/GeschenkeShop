@@ -36,39 +36,29 @@
       </div>
       <br />
       <div class="row">
-        <label for="URL">URL:</label>
+        <label for="Passwort">Passwort:</label>
         <input
-          type="url"
-          name="URL"
-          id="URL"
-          placeholder="https://www.w3schools.com/howto/howto_css_login_form.asp"
+          type="password"
+          name="Passwort"
+          id="Passwort"
+          placeholder="Passwort"
+          min="8"
+          required
         />
-      </div>
-      <br />
-      <div class="row">
-        <label for="Alter">Alter:</label>
-        <input type="number" name="Alter" id="Alter" min="3" max="120" />
-      </div>
-      <br />
-      <div class="row">
-        <label for="Interesse">Interesse an ähnlichen Produkten</label>
-        <input type="range" name="Interesse" id="Interesse" min="0" max="10" value="5" />
-      </div>
-      <br />
-      <div class="row">
-        <label for="textfeld">Textfeld</label><br />
-        <textarea
-          name="textfeld"
-          id="textfeld"
-          rows="5"
-          spellcheck="true"
-          placeholder="Bitte geben Sie hier Ihre Anfrage an uns ein!"
-        ></textarea>
+        <label for="PasswortWiederholen">Passwort wiederholen:</label>
+        <input
+          type="password"
+          name="PasswortWiederholen"
+          id="PasswortWiederholen"
+          placeholder="Passwort wiederholen"
+          min="8"
+          required
+        />
       </div>
       <div class="row">
         <input type="submit" value="Anfrage absenden" />
       </div>
-      <p>Du hast noch keinen Account? <a href="/login">Melde dich hier an!</a></p>
+      <p>Du hast schon einen Account? <a href="/login">Melde dich hier an!</a></p>
     </form>
   </div>
 </template>

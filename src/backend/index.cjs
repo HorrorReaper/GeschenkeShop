@@ -9,7 +9,6 @@ const app = express();
 const port = 3000;
 
 // Path to your JSON file
-const booksJsonFilePath = path.join(__dirname, 'books.json');
 const ordersFilePath = './order.json';
 // Middleware
 app.use(cors());
