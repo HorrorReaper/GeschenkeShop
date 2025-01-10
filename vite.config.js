@@ -15,5 +15,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  base: '/ewa/g25/geschenke_shop_ems/test/dist/', // Path relative to project root
 })
